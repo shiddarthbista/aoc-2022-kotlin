@@ -3,40 +3,30 @@ package day03
 import readInput
 
 fun main() {
-    fun priorityScore(commonChar: Char): Int {
-        return when {
+    fun priorityScore(commonChar: Char): Int =
+         when {
             commonChar.isLowerCase() -> {
-                commonChar.code - 96
+                commonChar.code - 'a'.code + 1
             }
             commonChar.isUpperCase() -> {
-                commonChar.code - 38
+                commonChar.code - 'A'.code + 27
             }
             else -> error("Invalid character")
         }
-    }
-
-    fun calculatePriority(input: String): Int {
-        val ruckSackOne = input.substring(0,(input.length/2)).toList()
-        val ruckSackTwo = input.substring(input.length/2,input.length).toList()
-
-        val commonChar = ruckSackOne.intersect(ruckSackTwo).first()
-        return priorityScore(commonChar)
-    }
-
-    fun calculatePriority(input: List<String>): Int {
-        val commonChar = (input.first().toList().intersect(input.last().toList())).intersect(input[1].toList()).first()
-        return priorityScore(commonChar)
-    }
 
     fun part1(input: List<String>): Int {
-        return input.sumOf {
-            calculatePriority(it)
+        return input.sumOf {rucksack->
+            val ruckSackOne =  rucksack.substring(0,(rucksack.length/2)).toList()
+            val ruckSackTwo = rucksack.substring(rucksack.length/2).toList()
+            priorityScore((ruckSackOne intersect ruckSackTwo).first())
         }
     }
 
     fun part2(input:List<String>):Int {
-        return input.windowed(3,3).sumOf {
-            calculatePriority(it)
+        return input.chunked(3).sumOf { rucksacks ->
+            val(rucksackOne,rucksackTwo,rucksackThree) = rucksacks.map {  it.toList() }
+            val commonChar = rucksackOne intersect rucksackTwo intersect rucksackThree
+            priorityScore(commonChar.first())
         }
     }
 
