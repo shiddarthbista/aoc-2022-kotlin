@@ -3,39 +3,29 @@ package day03
 import readInput
 
 fun main() {
+    fun priorityScore(commonChar: Char): Int {
+        return when {
+            commonChar.isLowerCase() -> {
+                commonChar.code - 96
+            }
+            commonChar.isUpperCase() -> {
+                commonChar.code - 38
+            }
+            else -> error("Invalid character")
+        }
+    }
+
     fun calculatePriority(input: String): Int {
         val ruckSackOne = input.substring(0,(input.length/2)).toList()
         val ruckSackTwo = input.substring(input.length/2,input.length).toList()
-        var priorityScore = 0
 
         val commonChar = ruckSackOne.intersect(ruckSackTwo).first()
-        when {
-            commonChar.isLowerCase() -> {
-                priorityScore = commonChar.code - 96
-            }
-            commonChar.isUpperCase() -> {
-                priorityScore = commonChar.code - 38
-            }
-        }
-        return priorityScore
-
+        return priorityScore(commonChar)
     }
 
     fun calculatePriority(input: List<String>): Int {
-
-        var priorityScore = 0
-
         val commonChar = (input.first().toList().intersect(input.last().toList())).intersect(input[1].toList()).first()
-        when {
-            commonChar.isLowerCase() -> {
-                priorityScore = commonChar.code - 96
-            }
-            commonChar.isUpperCase() -> {
-                priorityScore = commonChar.code - 38
-            }
-        }
-        return priorityScore
-
+        return priorityScore(commonChar)
     }
 
     fun part1(input: List<String>): Int {
