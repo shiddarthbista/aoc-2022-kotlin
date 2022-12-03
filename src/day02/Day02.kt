@@ -22,7 +22,7 @@ fun main() {
     println(part2(input))
 }
 
-fun calculateScore(opponent: String, player: String, version: Int): Int {
+fun calculateScore(opponent: String, player: String, part: Int): Int {
     val pointBook = mapOf(
         "A" to mapOf("X" to 4, "Y" to 8, "Z" to 3),
         "B" to mapOf("X" to 1, "Y" to 5, "Z" to 9),
@@ -34,7 +34,7 @@ fun calculateScore(opponent: String, player: String, version: Int): Int {
         "B" to mapOf("X" to 1, "Y" to 5, "Z" to 9),
         "C" to mapOf("X" to 2, "Y" to 6, "Z" to 7)
     )
-    return when(version){
+    return when(part){
         1 -> pointBook.getValue(opponent).getValue(player)
         2 -> pointBook2.getValue(opponent).getValue(player)
         else -> error("Invalid Input")
