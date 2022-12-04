@@ -3,18 +3,21 @@ package day04
 import readInput
 
 fun main() {
+    fun addToList(elf: String, roomList: MutableList<Int>) {
+        for (i in elf.substringBefore("-").toInt()..elf.substringAfter("-").toInt()) {
+            roomList.add(i)
+        }
+    }
+
     fun getElfRoomList(roomInfo: String): Pair<MutableList<Int>, MutableList<Int>> {
         val firstElf = roomInfo.substringBefore(",")
         val secondElf = roomInfo.substringAfter(",")
 
         val firstElfRoomList = mutableListOf<Int>()
         val secondElfRoomList = mutableListOf<Int>()
-        for (i in firstElf.substringBefore("-").toInt()..firstElf.substringAfter("-").toInt()) {
-            firstElfRoomList.add(i)
-        }
-        for (i in secondElf.substringBefore("-").toInt()..secondElf.substringAfter("-").toInt()) {
-            secondElfRoomList.add(i)
-        }
+
+        addToList(firstElf, firstElfRoomList)
+        addToList(secondElf, secondElfRoomList)
         return Pair(firstElfRoomList, secondElfRoomList)
     }
 
