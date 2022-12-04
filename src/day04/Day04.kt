@@ -3,60 +3,34 @@ package day04
 import readInput
 
 fun main() {
+    fun getElfRoomList(roomInfo: String): Pair<MutableList<Int>, MutableList<Int>> {
+        val firstElf = roomInfo.substringBefore(",")
+        val secondElf = roomInfo.substringAfter(",")
 
-    fun calculateOverlap(firstElfRooms: MutableList<Int>, secondElfRooms: MutableList<Int>): Int =
-        when {
-            firstElfRooms.containsAll(secondElfRooms) -> {
-                1
-            }
-            secondElfRooms.containsAll(firstElfRooms) -> {
-                1
-            }
-            else -> 0
+        val firstElfRoomList = mutableListOf<Int>()
+        val secondElfRoomList = mutableListOf<Int>()
+        for (i in firstElf.substringBefore("-").toInt()..firstElf.substringAfter("-").toInt()) {
+            firstElfRoomList.add(i)
         }
-
-    fun calculateAnyOverlap(firstElfRooms: MutableList<Int>, secondElfRooms: MutableList<Int>): Int =
-        when {
-            firstElfRooms.any {it in secondElfRooms} -> 1
-            secondElfRooms.any {it in firstElfRooms} -> 1
-            else -> 0
+        for (i in secondElf.substringBefore("-").toInt()..secondElf.substringAfter("-").toInt()) {
+            secondElfRoomList.add(i)
         }
-
+        return Pair(firstElfRoomList, secondElfRoomList)
+    }
 
     fun part1(input: List<String>): Int {
-        return input.sumOf {
-            val firstElf = it.substringBefore(",")
-            val secondElf = it.substringAfter(",")
-
-            val firstElfRoomList = mutableListOf<Int>()
-            val secondElfRoomList = mutableListOf<Int>()
-            for (i in firstElf.substringBefore("-").toInt() .. firstElf.substringAfter("-").toInt()) {
-                firstElfRoomList.add(i)
-            }
-            for (i in secondElf.substringBefore("-").toInt() .. secondElf.substringAfter("-").toInt()) {
-                secondElfRoomList.add(i)
-            }
-            calculateOverlap(firstElfRoomList,secondElfRoomList)
+        return input.count {
+            val (firstElfRoomList, secondElfRoomList) = getElfRoomList(it)
+            firstElfRoomList.containsAll(secondElfRoomList) || secondElfRoomList.containsAll(firstElfRoomList)
         }
     }
 
-    fun part2(input: List<String>):Int {
-        return input.sumOf {
-            val firstElf = it.substringBefore(",")
-            val secondElf = it.substringAfter(",")
-
-            val firstElfRoomList = mutableListOf<Int>()
-            val secondElfRoomList = mutableListOf<Int>()
-            for (i in firstElf.substringBefore("-").toInt() .. firstElf.substringAfter("-").toInt()) {
-                firstElfRoomList.add(i)
-            }
-            for (i in secondElf.substringBefore("-").toInt() .. secondElf.substringAfter("-").toInt()) {
-                secondElfRoomList.add(i)
-            }
-            calculateAnyOverlap(firstElfRoomList,secondElfRoomList)
+    fun part2(input: List<String>): Int {
+        return input.count { it ->
+            val (firstElfRoomList, secondElfRoomList) = getElfRoomList(it)
+            firstElfRoomList.any { it in secondElfRoomList }
         }
     }
-
 
     val testInput = readInput("Day04_test")
     val input = readInput("Day04")
