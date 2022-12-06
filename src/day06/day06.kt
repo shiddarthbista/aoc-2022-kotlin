@@ -4,7 +4,7 @@ import java.io.File
 
 fun main() {
     fun String.findMarker(distinctCount: Int) = windowed(distinctCount).indexOfFirst{
-        it.toSet().count() == it.count()
+        it.toSet().size == it.length
     } + distinctCount
 
     fun part1(input: String):Int = input.findMarker(4)
